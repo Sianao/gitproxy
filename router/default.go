@@ -34,8 +34,11 @@ func NewRouter() *mux.Router {
 		http.FileServer(http.Dir("./out/")).ServeHTTP(w, r)
 
 	})
-	route.PathPrefix("/_next/").Handler(http.StripPrefix("/_next/",
-		http.FileServer(http.Dir("./_next/"))))
+
+	route.PathPrefix("/_next/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.FileServer(http.Dir("./out/")).ServeHTTP(w, r)
+
+	})
 	route.HandleFunc("/info/refs", func(w http.ResponseWriter, r *http.Request) {
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/info/refs?service=git-upload-pack", userBaisc[0], userBaisc[1])
