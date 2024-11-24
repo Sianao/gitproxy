@@ -17,8 +17,6 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	// r := gin.Default()
-	// r.StaticFile()
 	log.Fatal(srv.ListenAndServe())
 
 }

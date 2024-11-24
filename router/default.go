@@ -21,6 +21,7 @@ func ServeHTTP(w http.ResponseWriter, req *http.Request, route *mux.Router) {
 // https://raw.githubusercontent.com/laurent22/joplin/e652db05e1ba47725249a6ff543628aeeb32fad7/.gitignore
 // https://raw.githubusercontent.com/laurent22/joplin/android-v3.2.2/.gitignore
 // 建立新的router  这里先建立好 方便后续的router
+
 func NewRouter() *mux.Router {
 	route := mux.NewRouter()
 	route.HandleFunc("/git-upload-pack", func(w http.ResponseWriter, r *http.Request) {
@@ -30,11 +31,11 @@ func NewRouter() *mux.Router {
 	})
 	route.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("server")
-		http.FileServer(http.Dir("/home/sia/gitproxy-go/out/")).ServeHTTP(w, r)
+		http.FileServer(http.Dir("./out/")).ServeHTTP(w, r)
 
 	})
 	route.PathPrefix("/_next/").Handler(http.StripPrefix("/_next/",
-		http.FileServer(http.Dir("/home/sia/gitproxy-go/out/_next/"))))
+		http.FileServer(http.Dir("./_next/"))))
 	route.HandleFunc("/info/refs", func(w http.ResponseWriter, r *http.Request) {
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/info/refs?service=git-upload-pack", userBaisc[0], userBaisc[1])
