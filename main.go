@@ -1,0 +1,24 @@
+package main
+
+import (
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/sianao/gitproxy/handler"
+	"github.com/sianao/gitproxy/router"
+)
+
+func main() {
+	router := router.NewRouter()
+	srv := &http.Server{
+		Handler:      handler.NewHandler(router),
+		Addr:         "127.0.0.1:8888",
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	// r := gin.Default()
+	// r.StaticFile()
+	log.Fatal(srv.ListenAndServe())
+
+}
