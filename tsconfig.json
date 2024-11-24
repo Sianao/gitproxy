@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "module": "commonjs", /* Specify what module code is generated. */ // "rootDir": "./",                                  /* Specify the root
+    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */ /* Type Checking */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "noEmit": true,
+    "noImplicitAny": false,
+    "incremental": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "target": "ES2017",
+    "strict": false,
+    "esModuleInterop": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
