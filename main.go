@@ -13,7 +13,7 @@ func main() {
 	router := router.NewRouter()
 	srv := &http.Server{
 		Handler:      handler.NewHandler(router),
-		Addr:         "127.0.0.1:8888",
+		Addr:         "0.0.0.0:8888",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}

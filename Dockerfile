@@ -36,5 +36,5 @@ ENV TZ Asia/Shanghai
 
 WORKDIR /app
 COPY --from=Gobuilder /app/gitproxy /app/gitproxy
-COPY --from=builder  /app/out /app/
+COPY --from=builder  /app/out /app/out/
 CMD ["./gitproxy"]
