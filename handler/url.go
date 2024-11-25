@@ -19,11 +19,13 @@ const (
 
 func urlProcess(w http.ResponseWriter, r *http.Request) string {
 	switch {
-	case strings.HasPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"):
-		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"))
+	case strings.HasPrefix(r.RequestURI, "/https:/raw.githubusercontent.com/"):
+		///https:/raw.githubusercontent.com/
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/raw.githubusercontent.com/"))
 		r.RequestURI = r.URL.String()
-	case strings.HasPrefix(r.RequestURI, "/https://raw.githubusercontent.com"):
-		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https://raw.githubusercontent.com"))
+		return RawGit
+	case strings.HasPrefix(r.RequestURI, "/https://raw.githubusercontent.com/"):
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https://raw.githubusercontent.com/"))
 		r.RequestURI = r.URL.String()
 		return RawGit
 	case strings.HasPrefix(r.RequestURI, "/https:/github.com/"):
@@ -50,17 +52,18 @@ func urlProcess(w http.ResponseWriter, r *http.Request) string {
 		http.NotFound(w, r)
 		return ""
 	}
-	return ""
 }
 func NewHandler(route *mux.Router) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		//static file
+
 		if r.RequestURI == "/" || strings.HasPrefix(r.RequestURI, "/_next/") {
 			router.ServeHTTP(w, r, route)
 			return
 		}
 		var types = urlProcess(w, r)
 		if types == "" {
+			fmt.Println("return from here")
 			return
 		}
 		//去除掉host方便进入路由匹配

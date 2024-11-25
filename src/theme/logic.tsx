@@ -20,7 +20,6 @@ async function downloadFile(url: string): Promise<void> {
 
     const urlSegments = url.split('/');
     let filename = urlSegments[urlSegments.length - 1];
-
     saveAs(blob, filename);
   } catch (error) {
     console.error('下载文件时出错:', error);
