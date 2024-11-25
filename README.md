@@ -1,7 +1,7 @@
 # :tada: git proxy  :tada:
 > :bookmark:
 >
-> 一款高颜值 高性能的github代理软件   支持二进制文件下载 支持git clone代理  ui界面友好  交互简单
+> 一款高颜值 高性能的github代理软件   支持二进制文件下载 支持git clone代理  ui界面友好  交互简单 二进制产物 无需要其他依赖
 
 ## 支持的文件形式
 
