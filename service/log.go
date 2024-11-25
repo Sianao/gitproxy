@@ -121,7 +121,7 @@ func (p *LogFormatterParams) IsOutputColor() bool {
 }
 
 // defaultLogFormatter is the default log format function Logger middleware uses.
-var DefaultLogFormatter = func(param LogFormatterParams) string {
+var DefaultLogFormatter = func(param LogFormatterParams) {
 	var statusColor, methodColor, resetColor string
 	if param.IsOutputColor() {
 		statusColor = param.StatusCodeColor()
@@ -132,7 +132,7 @@ var DefaultLogFormatter = func(param LogFormatterParams) string {
 	if param.Latency > time.Minute {
 		param.Latency = param.Latency.Truncate(time.Second)
 	}
-	return fmt.Sprintf("[GitProxy]  |%s %3d %s| %13v | %15s |%s %-7s %s %#v\n%s",
+	fmt.Printf("[GitProxy]  |%s %3d %s| %13v | %15s |%s %-7s %s %#v\n%s",
 		statusColor, param.StatusCode, resetColor,
 		param.Latency,
 		param.ClientIP,

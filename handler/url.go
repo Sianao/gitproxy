@@ -66,7 +66,6 @@ func NewHandler(route *mux.Router) http.HandlerFunc {
 			}
 			service.DefaultLogFormatter(
 				service.LogFormatterParams{StatusCode: 404, ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
-			http.NotFound(w, r)
 			return
 		}
 		//去除掉host方便进入路由匹配
