@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -48,22 +47,18 @@ func urlProcess(w http.ResponseWriter, r *http.Request) string {
 
 	default:
 		// 不支持的文件形式
-		fmt.Println("default", r.RequestURI)
 		http.NotFound(w, r)
 		return ""
 	}
 }
 func NewHandler(route *mux.Router) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//static file
-
 		if r.RequestURI == "/" || strings.HasPrefix(r.RequestURI, "/_next/") {
 			router.ServeHTTP(w, r, route)
 			return
 		}
 		var types = urlProcess(w, r)
 		if types == "" {
-			fmt.Println("return from here")
 			return
 		}
 		//去除掉host方便进入路由匹配

@@ -7,10 +7,12 @@ import (
 
 	"github.com/sianao/gitproxy/handler"
 	"github.com/sianao/gitproxy/router"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	router := router.NewRouter()
+	l := logrus.New()
+	router := router.NewRouter(l)
 	srv := &http.Server{
 		Handler:      handler.NewHandler(router),
 		Addr:         "0.0.0.0:8888",

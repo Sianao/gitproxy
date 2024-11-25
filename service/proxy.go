@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
-func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
+func PacketProxy(w http.ResponseWriter, r *http.Request, address string, log *logrus.Logger) {
 	req, _ := http.NewRequest(r.Method, address, r.Body)
 	req.Header = r.Header
 	resp, err := http.DefaultClient.Do(req)
@@ -20,6 +22,7 @@ func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
 			w.Header().Add(key, value)
 		}
 	}
+	log.Println(address, resp.StatusCode)
 	w.WriteHeader(resp.StatusCode)
 	if _, err := io.Copy(w, resp.Body); err != nil {
 		http.Error(w, fmt.Sprintf("copying response body err: %s", err), http.StatusInternalServerError)
