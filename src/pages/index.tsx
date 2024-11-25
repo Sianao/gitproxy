@@ -14,6 +14,7 @@ export default function Home() {
       <Head>
       <title>GitHub Proxy 代理加速
       </title>
+        <link rel="icon" href="favicon.ico" type="image/x-icon"/>
         <meta name='description' content='Github Proxy Github 国内代理 GitHub 文件 , Releases , archive , gist , raw.githubusercontent.com 文件代理加速下载服务.' />
         <meta name='keywords' content={`Github Proxy Github 国内代理 GitHub 文件 , Releases `} />
       

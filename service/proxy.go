@@ -22,9 +22,24 @@ func PacketProxy(w http.ResponseWriter, r *http.Request, address string, log *lo
 			w.Header().Add(key, value)
 		}
 	}
-	log.Println(address, resp.StatusCode)
-	w.WriteHeader(resp.StatusCode)
-	if _, err := io.Copy(w, resp.Body); err != nil {
-		http.Error(w, fmt.Sprintf("copying response body err: %s", err), http.StatusInternalServerError)
+	v, ok := r.Header[http.CanonicalHeaderKey("X-Real-IP")]
+	if !ok {
+		v = []string{r.RemoteAddr}
 	}
+	DefaultLogFormatter(LogFormatterParams{StatusCode: resp.StatusCode, ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
+	w.WriteHeader(resp.StatusCode)
+	io.Copy(w, resp.Body)
 }
+
+// // StatusCode is HTTP response code.
+// StatusCode int
+// // Latency is how much time the server cost to process a certain request.
+// Latency time.Duration
+// // ClientIP equals Context's ClientIP method.
+// ClientIP string
+// // Method is the HTTP method given to the request.
+// Method string
+// // Path is a path the client requests.
+// Path string
+// // ErrorMessage is set if error has occurred in processing the request.
+// ErrorMessage string

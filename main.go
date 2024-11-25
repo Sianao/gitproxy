@@ -12,6 +12,7 @@ import (
 
 func main() {
 	l := logrus.New()
+	// r := gin.Default()
 	router := router.NewRouter(l)
 	srv := &http.Server{
 		Handler:      handler.NewHandler(router, l),

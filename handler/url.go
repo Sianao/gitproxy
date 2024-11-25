@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/sianao/gitproxy/moudule"
 	"github.com/sianao/gitproxy/router"
+	"github.com/sianao/gitproxy/service"
 	"github.com/sirupsen/logrus"
 )
 
@@ -60,12 +61,24 @@ func NewHandler(route *mux.Router, log *logrus.Logger) http.HandlerFunc {
 		}
 		var types = urlProcess(w, r)
 		if types == "" {
-			log.Errorln(r.RequestURI)
+			v, ok := r.Header[http.CanonicalHeaderKey("X-Real-IP")]
+			if !ok {
+				v = []string{r.RemoteAddr}
+			}
+			service.DefaultLogFormatter(
+				service.LogFormatterParams{StatusCode: 404, ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
+			http.NotFound(w, r)
 			return
 		}
 		//去除掉host方便进入路由匹配
 		sub := strings.Split(strings.TrimPrefix(r.URL.String(), "/"), "/")
 		if len(sub) <= 2 {
+			v, ok := r.Header[http.CanonicalHeaderKey("X-Real-IP")]
+			if !ok {
+				v = []string{r.RemoteAddr}
+			}
+			service.DefaultLogFormatter(
+				service.LogFormatterParams{StatusCode: 404, ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
 			http.NotFound(w, r)
 			return
 		}
