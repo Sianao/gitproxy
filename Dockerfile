@@ -30,7 +30,7 @@ COPY . .
 RUN go build -ldflags="-s -w" -o /app/gitproxy main.go
 
 
-FROM busybox
+FROM alpine
 
 ENV TZ Asia/Shanghai
 
