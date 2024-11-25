@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -26,12 +27,12 @@ func NewHandler(route *mux.Router) http.HandlerFunc {
 		var types string
 		//去除掉host方便进入路由匹配
 		switch {
-		case strings.HasPrefix(r.RequestURI, "/https://raw.githubusercontent.com"):
-			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https://raw.githubusercontent.com"))
+		case strings.HasPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"):
+			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"))
 			r.RequestURI = r.URL.String()
 			types = RawGit
-		case strings.HasPrefix(r.RequestURI, "/https://github.com/"):
-			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https://github.com/"))
+		case strings.HasPrefix(r.RequestURI, "/https:/github.com/"):
+			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/github.com/"))
 			r.RequestURI = r.URL.String()
 			types = Github
 
@@ -46,7 +47,9 @@ func NewHandler(route *mux.Router) http.HandlerFunc {
 			types = RawGit
 		default:
 			// 不支持的文件形式
+			fmt.Println("default", r.RequestURI)
 			http.NotFound(w, r)
+			return
 		}
 		sub := strings.Split(strings.TrimPrefix(r.URL.String(), "/"), "/")
 		if len(sub) <= 2 {

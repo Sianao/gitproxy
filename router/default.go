@@ -30,7 +30,6 @@ func NewRouter() *mux.Router {
 		service.PacketProxy(w, r, address)
 	})
 	route.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("server")
 		http.FileServer(http.Dir("./out/")).ServeHTTP(w, r)
 
 	})
@@ -55,12 +54,12 @@ func NewRouter() *mux.Router {
 	})
 	route.HandleFunc("/archive/refs/tags/{tags}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
+
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/archive/refs/tags/%s", userBaisc[0], userBaisc[1], vars["tags"])
 		service.PacketProxy(w, r, address)
 	})
 	route.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r.RequestURI)
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		if len(userBaisc) != 3 {
 			http.Error(w, "bad address", 512)
