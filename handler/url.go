@@ -50,6 +50,7 @@ func urlProcess(w http.ResponseWriter, r *http.Request) string {
 		http.NotFound(w, r)
 		return ""
 	}
+	return ""
 }
 func NewHandler(route *mux.Router) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
