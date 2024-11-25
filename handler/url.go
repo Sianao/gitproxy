@@ -17,6 +17,40 @@ const (
 	RawGit = "raw"
 )
 
+func urlProcess(w http.ResponseWriter, r *http.Request) string {
+	switch {
+	case strings.HasPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"):
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"))
+		r.RequestURI = r.URL.String()
+	case strings.HasPrefix(r.RequestURI, "/https://raw.githubusercontent.com"):
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https://raw.githubusercontent.com"))
+		r.RequestURI = r.URL.String()
+		return RawGit
+	case strings.HasPrefix(r.RequestURI, "/https:/github.com/"):
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/github.com/"))
+		r.RequestURI = r.URL.String()
+		return Github
+	case strings.HasPrefix(r.RequestURI, "/https://github.com/"):
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https://github.com/"))
+		r.RequestURI = r.URL.String()
+		return Github
+	case strings.HasPrefix(r.RequestURI, "/github.com/"):
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/github.com/"))
+		r.RequestURI = r.URL.String()
+		return Github
+
+	case strings.HasPrefix(r.RequestURI, "/raw.githubusercontent.com/"):
+		r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/raw.githubusercontent.com/"))
+		r.RequestURI = r.URL.String()
+		return RawGit
+
+	default:
+		// 不支持的文件形式
+		fmt.Println("default", r.RequestURI)
+		http.NotFound(w, r)
+		return ""
+	}
+}
 func NewHandler(route *mux.Router) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		//static file
@@ -24,33 +58,11 @@ func NewHandler(route *mux.Router) http.HandlerFunc {
 			router.ServeHTTP(w, r, route)
 			return
 		}
-		var types string
-		//去除掉host方便进入路由匹配
-		switch {
-		case strings.HasPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"):
-			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/raw.githubusercontent.com"))
-			r.RequestURI = r.URL.String()
-			types = RawGit
-		case strings.HasPrefix(r.RequestURI, "/https:/github.com/"):
-			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/https:/github.com/"))
-			r.RequestURI = r.URL.String()
-			types = Github
-
-		case strings.HasPrefix(r.RequestURI, "/github.com/"):
-			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/github.com/"))
-			r.RequestURI = r.URL.String()
-			types = Github
-
-		case strings.HasPrefix(r.RequestURI, "/raw.githubusercontent.com/"):
-			r.URL, _ = url.Parse(strings.TrimPrefix(r.RequestURI, "/raw.githubusercontent.com/"))
-			r.RequestURI = r.URL.String()
-			types = RawGit
-		default:
-			// 不支持的文件形式
-			fmt.Println("default", r.RequestURI)
-			http.NotFound(w, r)
+		var types = urlProcess(w, r)
+		if types == "" {
 			return
 		}
+		//去除掉host方便进入路由匹配
 		sub := strings.Split(strings.TrimPrefix(r.URL.String(), "/"), "/")
 		if len(sub) <= 2 {
 			http.NotFound(w, r)

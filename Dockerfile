@@ -33,7 +33,7 @@ RUN go build -ldflags="-s -w" -o /app/gitproxy main.go
 FROM alpine
 
 ENV TZ Asia/Shanghai
-
+RUN  apk add  ca-certificates
 WORKDIR /app
 COPY --from=Gobuilder /app/gitproxy /app/gitproxy
 COPY --from=builder  /app/out /app/out/
