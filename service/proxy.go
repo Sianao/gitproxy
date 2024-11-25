@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-
-	"github.com/sirupsen/logrus"
 )
 
-func PacketProxy(w http.ResponseWriter, r *http.Request, address string, log *logrus.Logger) {
+func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
 	req, _ := http.NewRequest(r.Method, address, r.Body)
 	req.Header = r.Header
 	resp, err := http.DefaultClient.Do(req)

@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/sianao/gitproxy/moudule"
 	"github.com/sianao/gitproxy/service"
-	"github.com/sirupsen/logrus"
 )
 
 func ServeHTTP(w http.ResponseWriter, req *http.Request, route *mux.Router) {
@@ -22,12 +21,12 @@ func ServeHTTP(w http.ResponseWriter, req *http.Request, route *mux.Router) {
 // https://raw.githubusercontent.com/laurent22/joplin/e652db05e1ba47725249a6ff543628aeeb32fad7/.gitignore
 // https://raw.githubusercontent.com/laurent22/joplin/android-v3.2.2/.gitignore
 // 建立新的router  这里先建立好 方便后续的router
-func NewRouter(log *logrus.Logger) *mux.Router {
+func NewRouter() *mux.Router {
 	route := mux.NewRouter()
 	route.HandleFunc("/git-upload-pack", func(w http.ResponseWriter, r *http.Request) {
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/git-upload-pack", userBaisc[0], userBaisc[1])
-		service.PacketProxy(w, r, address, log)
+		service.PacketProxy(w, r, address)
 	})
 	route.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.FileServer(http.Dir("./out/")).ServeHTTP(w, r)
@@ -41,7 +40,7 @@ func NewRouter(log *logrus.Logger) *mux.Router {
 	route.HandleFunc("/info/refs", func(w http.ResponseWriter, r *http.Request) {
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/info/refs?service=git-upload-pack", userBaisc[0], userBaisc[1])
-		service.PacketProxy(w, r, address, log)
+		service.PacketProxy(w, r, address)
 
 	})
 
@@ -49,7 +48,7 @@ func NewRouter(log *logrus.Logger) *mux.Router {
 		vars := mux.Vars(r)
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/%s", userBaisc[0], userBaisc[1], vars["version"], vars["file"])
-		service.PacketProxy(w, r, address, log)
+		service.PacketProxy(w, r, address)
 
 	})
 	route.HandleFunc("/archive/refs/tags/{tags}", func(w http.ResponseWriter, r *http.Request) {
@@ -57,7 +56,7 @@ func NewRouter(log *logrus.Logger) *mux.Router {
 
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/archive/refs/tags/%s", userBaisc[0], userBaisc[1], vars["tags"])
-		service.PacketProxy(w, r, address, log)
+		service.PacketProxy(w, r, address)
 
 	})
 	route.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -76,7 +75,7 @@ func NewRouter(log *logrus.Logger) *mux.Router {
 		var address = fmt.Sprintf("https://raw.githubusercontent.com/%s/%s%s",
 			userBaisc[0], userBaisc[1], r.RequestURI)
 
-		service.PacketProxy(w, r, address, log)
+		service.PacketProxy(w, r, address)
 
 	})
 	return route

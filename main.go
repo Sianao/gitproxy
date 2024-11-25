@@ -7,15 +7,13 @@ import (
 
 	"github.com/sianao/gitproxy/handler"
 	"github.com/sianao/gitproxy/router"
-	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	l := logrus.New()
 	// r := gin.Default()
-	router := router.NewRouter(l)
+	router := router.NewRouter()
 	srv := &http.Server{
-		Handler:      handler.NewHandler(router, l),
+		Handler:      handler.NewHandler(router),
 		Addr:         "0.0.0.0:8888",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
