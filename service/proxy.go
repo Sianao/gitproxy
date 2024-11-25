@@ -2,8 +2,10 @@ package service
 
 import (
 	"fmt"
+	"github.com/dustin/go-humanize"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
@@ -24,7 +26,12 @@ func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
 	if !ok {
 		v = []string{r.RemoteAddr}
 	}
-	DefaultLogFormatter(LogFormatterParams{StatusCode: resp.StatusCode, ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
+	length, _ := strconv.Atoi(w.Header().Get("Content-Length"))
+
+	DefaultLogFormatter(
+		LogFormatterParams{StatusCode: resp.StatusCode,
+			ContentLength: humanize.Bytes(uint64(length)), ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
+
 	w.WriteHeader(resp.StatusCode)
 	io.Copy(w, resp.Body)
 }

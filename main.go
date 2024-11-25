@@ -10,10 +10,9 @@ import (
 )
 
 func main() {
-	// r := gin.Default()
-	router := router.NewRouter()
+	newRouter := router.NewRouter()
 	srv := &http.Server{
-		Handler:      handler.NewHandler(router),
+		Handler:      handler.NewHandler(newRouter),
 		Addr:         "0.0.0.0:8888",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,

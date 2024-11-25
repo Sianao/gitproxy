@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 )
 
 type consoleColorModeValue int
@@ -55,9 +54,9 @@ type LogFormatterParams struct {
 
 	// TimeStamp shows the time after the server returns a response.
 	// StatusCode is HTTP response code.
-	StatusCode int
+	StatusCode    int
+	ContentLength string
 	// Latency is how much time the server cost to process a certain request.
-	Latency time.Duration
 	// ClientIP equals Context's ClientIP method.
 	ClientIP string
 	// Method is the HTTP method given to the request.
@@ -129,12 +128,9 @@ var DefaultLogFormatter = func(param LogFormatterParams) {
 		resetColor = param.ResetColor()
 	}
 
-	if param.Latency > time.Minute {
-		param.Latency = param.Latency.Truncate(time.Second)
-	}
 	fmt.Printf("[GitProxy]  |%s %3d %s| %13v | %15s |%s %-7s %s %#v\n%s",
 		statusColor, param.StatusCode, resetColor,
-		param.Latency,
+		param.ContentLength,
 		param.ClientIP,
 		methodColor, param.Method, resetColor,
 		param.Path,

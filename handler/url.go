@@ -2,8 +2,10 @@ package handler
 
 import (
 	"context"
+	"github.com/dustin/go-humanize"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -64,8 +66,11 @@ func NewHandler(route *mux.Router) http.HandlerFunc {
 			if !ok {
 				v = []string{r.RemoteAddr}
 			}
+			length, _ := strconv.Atoi(w.Header().Get("Content-Length"))
+
 			service.DefaultLogFormatter(
-				service.LogFormatterParams{StatusCode: 404, ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
+				service.LogFormatterParams{StatusCode: 404,
+					ContentLength: humanize.Bytes(uint64(length)), ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
 			return
 		}
 		//去除掉host方便进入路由匹配
