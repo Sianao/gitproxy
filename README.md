@@ -25,3 +25,5 @@ docker build . -t gitproxy:latest
 裸机部署：
 
 按照dockerfile编译规则 首先编译静态文件 再编译`main.go`入口 运行 `go run main.go`
+
+[proxy](https://gitproxy.click)
