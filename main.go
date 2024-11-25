@@ -14,7 +14,7 @@ func main() {
 	l := logrus.New()
 	router := router.NewRouter(l)
 	srv := &http.Server{
-		Handler:      handler.NewHandler(router),
+		Handler:      handler.NewHandler(router, l),
 		Addr:         "0.0.0.0:8888",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,

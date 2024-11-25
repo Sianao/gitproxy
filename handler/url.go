@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/sianao/gitproxy/moudule"
 	"github.com/sianao/gitproxy/router"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -51,7 +52,7 @@ func urlProcess(w http.ResponseWriter, r *http.Request) string {
 		return ""
 	}
 }
-func NewHandler(route *mux.Router) http.HandlerFunc {
+func NewHandler(route *mux.Router, log *logrus.Logger) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.RequestURI == "/" || strings.HasPrefix(r.RequestURI, "/_next/") {
 			router.ServeHTTP(w, r, route)
@@ -59,6 +60,7 @@ func NewHandler(route *mux.Router) http.HandlerFunc {
 		}
 		var types = urlProcess(w, r)
 		if types == "" {
+			log.Errorln(r.RequestURI)
 			return
 		}
 		//去除掉host方便进入路由匹配
