@@ -52,8 +52,10 @@ func NewRouter(c *cache.Redis) *mux.Router {
 		vars := mux.Vars(r)
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/%s", userBaisc[0], userBaisc[1], vars["version"], vars["file"])
-		c.Incr(address)
-		if c.Exists(address) {
+		path := fmt.Sprintf("github.com/%s/%s/releases/download/%s/%s", userBaisc[0], userBaisc[1], vars["version"], vars["file"])
+		c.Incr(path)
+		if c.Exists(path) {
+			r.URL.Path = path
 			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
 			return
 		}
@@ -64,8 +66,11 @@ func NewRouter(c *cache.Redis) *mux.Router {
 		vars := mux.Vars(r)
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/archive/refs/tags/%s", userBaisc[0], userBaisc[1], vars["tags"])
-		c.Incr(address)
-		if c.Exists(address) {
+		path := fmt.Sprintf("github.com/%s/%s/archive/refs/tags/%s",
+			userBaisc[0], userBaisc[1], r.URL.Path)
+		c.Incr(path)
+		if c.Exists(path) {
+			r.URL.Path = path
 			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
 			return
 		}
