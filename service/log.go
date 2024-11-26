@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
 
 type consoleColorModeValue int
@@ -127,8 +128,8 @@ func DefaultLogFormatter(param LogFormatterParams) {
 		resetColor = param.ResetColor()
 	}
 
-	fmt.Printf("[GitProxy]  |%s %3d %s| %13v | %15s |%s %-7s %s %#v\n%s",
-		statusColor, param.StatusCode, resetColor,
+	fmt.Printf("[Proxy] %s |%s %d %s| %13v | %15s |%s %-7s %s %#v %s\n",
+		statusColor, time.Now().Format("01-02 15:04:05"), param.StatusCode, resetColor,
 		param.ContentLength,
 		param.ClientIP,
 		methodColor, param.Method, resetColor,
