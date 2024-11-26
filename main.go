@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/sianao/gitproxy/cache"
 	"log"
 	"net/http"
 	"time"
@@ -10,7 +11,8 @@ import (
 )
 
 func main() {
-	newRouter := router.NewRouter()
+	c := cache.Init()
+	newRouter := router.NewRouter(c)
 	srv := &http.Server{
 		Handler:      handler.NewHandler(newRouter),
 		Addr:         "0.0.0.0:8888",

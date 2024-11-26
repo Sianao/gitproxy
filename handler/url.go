@@ -55,7 +55,7 @@ func urlProcess(w http.ResponseWriter, r *http.Request) string {
 	}
 }
 func NewHandler(route *mux.Router) http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		if r.RequestURI == "/" || strings.HasPrefix(r.RequestURI, "/_next/") {
 			router.ServeHTTP(w, r, route)
 			return

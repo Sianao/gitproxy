@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"github.com/sianao/gitproxy/cache"
 	"net/http"
 	"strings"
 
@@ -21,7 +22,7 @@ func ServeHTTP(w http.ResponseWriter, req *http.Request, route *mux.Router) {
 // https://raw.githubusercontent.com/laurent22/joplin/e652db05e1ba47725249a6ff543628aeeb32fad7/.gitignore
 // https://raw.githubusercontent.com/laurent22/joplin/android-v3.2.2/.gitignore
 // 建立新的router  这里先建立好 方便后续的router
-func NewRouter() *mux.Router {
+func NewRouter(c *cache.Redis) *mux.Router {
 	route := mux.NewRouter()
 	route.HandleFunc("/git-upload-pack", func(w http.ResponseWriter, r *http.Request) {
 		userBaisc := r.Context().Value(&moudule.B).([]string)
@@ -48,14 +49,23 @@ func NewRouter() *mux.Router {
 		vars := mux.Vars(r)
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/%s", userBaisc[0], userBaisc[1], vars["version"], vars["file"])
+		c.Incr(address)
+		if c.Exists(address) {
+			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
+			return
+		}
 		service.PacketProxy(w, r, address)
 
 	})
 	route.HandleFunc("/archive/refs/tags/{tags}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/archive/refs/tags/%s", userBaisc[0], userBaisc[1], vars["tags"])
+		c.Incr(address)
+		if c.Exists(address) {
+			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
+			return
+		}
 		service.PacketProxy(w, r, address)
 
 	})
@@ -65,16 +75,17 @@ func NewRouter() *mux.Router {
 			http.Error(w, "bad address", 512)
 			return
 		}
-
 		if userBaisc[2] != "raw" && !strings.HasPrefix(r.RequestURI, "/blob") {
 			http.Error(w, "bad address", 512)
 			return
 		}
 		r.RequestURI = strings.TrimPrefix(r.RequestURI, "/blob")
-
 		var address = fmt.Sprintf("https://raw.githubusercontent.com/%s/%s%s",
 			userBaisc[0], userBaisc[1], r.RequestURI)
-
+		c.Incr(address)
+		if c.Exists(address) {
+			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
+		}
 		service.PacketProxy(w, r, address)
 
 	})
