@@ -119,8 +119,7 @@ func (p *LogFormatterParams) IsOutputColor() bool {
 	return consoleColorMode == forceColor || (consoleColorMode == autoColor)
 }
 
-// defaultLogFormatter is the default log format function Logger middleware uses.
-var DefaultLogFormatter = func(param LogFormatterParams) {
+func DefaultLogFormatter(param LogFormatterParams) {
 	var statusColor, methodColor, resetColor string
 	if param.IsOutputColor() {
 		statusColor = param.StatusCodeColor()
