@@ -2,8 +2,10 @@ package cache
 
 import (
 	"context"
+	"fmt"
 	"github.com/redis/go-redis/v9"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -30,17 +32,7 @@ func Init() *Redis {
 		return &Redis{}
 	}
 	c := make(chan string)
-	go func() {
-		for v := range c {
-			resp, _ := http.Get(v)
-			os.MkdirAll(filepath.Dir("cache/"+v), os.ModePerm)
-			fd, _ := os.Create("cache/" + v)
-			io.Copy(fd, resp.Body)
-			fd.Close()
-			resp.Body.Close()
-			rdb.HIncrBy(context.Background(), Old, v, 1)
-		}
-	}()
+
 	return &Redis{
 		db: rdb,
 		c:  c,
@@ -63,7 +55,7 @@ func (c *Redis) Incr(fd string) {
 	//有序列表 增加
 	val, _ := c.db.HIncrBy(context.Background(), Young, fd, 1).Result()
 	// upgrade 策略
-	if val > Station {
+	if val > Station && !c.Exists(fd) {
 		c.Upgrade(fd)
 	}
 }
@@ -71,5 +63,23 @@ func (c *Redis) Upgrade(key string) {
 	if c.Nil() {
 		return
 	}
+	go func() {
+		defer func() {
+			r := recover()
+			if r != nil {
+				log.Println(r)
+			}
+		}()
+		resp, _ := http.Get("https://" + key)
+		if resp.StatusCode != 200 {
+			fmt.Println(resp.StatusCode)
+		}
+		os.MkdirAll(filepath.Dir("cache/"+key), os.ModePerm)
+		fd, _ := os.Create("cache/" + key)
+		io.Copy(fd, resp.Body)
+		resp.Body.Close()
+		c.db.HIncrBy(context.Background(), Old, key, 1)
+	}()
 	c.c <- key
+
 }

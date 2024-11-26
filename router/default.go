@@ -2,8 +2,10 @@ package router
 
 import (
 	"fmt"
+	"github.com/dustin/go-humanize"
 	"github.com/sianao/gitproxy/cache"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -81,10 +83,24 @@ func NewRouter(c *cache.Redis) *mux.Router {
 		}
 		r.RequestURI = strings.TrimPrefix(r.RequestURI, "/blob")
 		var address = fmt.Sprintf("https://raw.githubusercontent.com/%s/%s%s",
-			userBaisc[0], userBaisc[1], r.RequestURI)
-		c.Incr(address)
-		if c.Exists(address) {
-			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
+			userBaisc[0], userBaisc[1], r.URL.Path)
+		path := fmt.Sprintf("raw.githubusercontent.com/%s/%s%s",
+			userBaisc[0], userBaisc[1], r.URL.Path)
+		c.Incr(path)
+		if c.Exists(path) {
+			r.URL.Path = path
+			http.FileServer(http.Dir("./cache/")).ServeHTTP(w, r)
+			v, ok := r.Header[http.CanonicalHeaderKey("X-Real-IP")]
+			if !ok {
+				v = []string{r.RemoteAddr}
+			}
+			length, _ := strconv.Atoi(w.Header().Get("Content-Length"))
+			service.DefaultLogFormatter(
+				service.LogFormatterParams{StatusCode: 200,
+					ErrorMessage:  "cache",
+					ContentLength: humanize.Bytes(uint64(length)), ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
+
+			return
 		}
 		service.PacketProxy(w, r, address)
 
