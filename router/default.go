@@ -57,6 +57,15 @@ func NewRouter(c *cache.Redis) *mux.Router {
 		if c.Exists(path) {
 			r.URL.Path = path
 			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
+			v, ok := r.Header[http.CanonicalHeaderKey("X-Real-IP")]
+			if !ok {
+				v = []string{r.RemoteAddr}
+			}
+			length, _ := strconv.Atoi(w.Header().Get("Content-Length"))
+			service.DefaultLogFormatter(
+				service.LogFormatterParams{StatusCode: 200,
+					ErrorMessage:  "cache",
+					ContentLength: humanize.Bytes(uint64(length)), ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
 			return
 		}
 		service.PacketProxy(w, r, address)
@@ -72,6 +81,15 @@ func NewRouter(c *cache.Redis) *mux.Router {
 		if c.Exists(path) {
 			r.URL.Path = path
 			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
+			v, ok := r.Header[http.CanonicalHeaderKey("X-Real-IP")]
+			if !ok {
+				v = []string{r.RemoteAddr}
+			}
+			length, _ := strconv.Atoi(w.Header().Get("Content-Length"))
+			service.DefaultLogFormatter(
+				service.LogFormatterParams{StatusCode: 200,
+					ErrorMessage:  "cache",
+					ContentLength: humanize.Bytes(uint64(length)), ClientIP: v[0], Method: r.Method, Path: r.URL.Path})
 			return
 		}
 		service.PacketProxy(w, r, address)
