@@ -3,12 +3,13 @@ package cache
 import (
 	"context"
 	"fmt"
-	"github.com/redis/go-redis/v9"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/redis/go-redis/v9"
 )
 
 const (
@@ -70,7 +71,14 @@ func (c *Redis) Upgrade(key string) {
 				log.Println(r)
 			}
 		}()
-		resp, _ := http.Get("https://" + key)
+		if c.Nil() {
+			return
+		}
+		resp, err := http.Get("https://" + key)
+		if err != nil {
+			log.Println("get err ", err)
+			return
+		}
 		if resp.StatusCode != 200 {
 			fmt.Println(resp.StatusCode)
 		}
@@ -78,8 +86,9 @@ func (c *Redis) Upgrade(key string) {
 		fd, _ := os.Create("cache/" + key)
 		io.Copy(fd, resp.Body)
 		resp.Body.Close()
+
 		c.db.HIncrBy(context.Background(), Old, key, 1)
+		c.c <- key
 	}()
-	c.c <- key
 
 }
