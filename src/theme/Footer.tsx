@@ -19,8 +19,8 @@ function Copyright() {
     
     <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
       {'Copyright © '}
-      <Link color="text.secondary" href="https://gitproxy.click">
-        GitProxy
+      <Link color="text.secondary" href="https://mui.com/">
+        Sitemark
       </Link>
       &nbsp;
       {new Date().getFullYear()}
@@ -61,12 +61,12 @@ export default function Footer() {
         >
           <Box sx={{ width: { xs: '100%', sm: '60%' } }}>
             <SitemarkIcon />
-            {/* <Typography variant="body2" gutterBottom sx={{ fontWeight: 600, mt: 2 }}>
+            <Typography variant="body2" gutterBottom sx={{ fontWeight: 600, mt: 2 }}>
               Join the newsletter
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
               Subscribe for weekly updates. No spams ever!
-            </Typography> */}
+            </Typography>
             <InputLabel htmlFor="email-newsletter">Email</InputLabel>
             <Stack direction="row" spacing={1} useFlexGap>
               <TextField
@@ -103,7 +103,7 @@ export default function Footer() {
             gap: 1,
           }}
         >
-          {/* <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
             Product
           </Typography>
           <Link color="text.secondary" variant="body2" href="#">
@@ -120,7 +120,7 @@ export default function Footer() {
           </Link>
           <Link color="text.secondary" variant="body2" href="#">
             FAQs
-          </Link> */}
+          </Link>
         </Box>
         <Box
           sx={{
@@ -194,13 +194,13 @@ export default function Footer() {
           <IconButton
             color="inherit"
             size="small"
-            href="https://github.com/sianao/gitproxy"
+            href="https://github.com/mui"
             aria-label="GitHub"
             sx={{ alignSelf: 'center' }}
           >
             <FacebookIcon />
           </IconButton>
-          {/* <IconButton
+          <IconButton
             color="inherit"
             size="small"
             href="https://x.com/MaterialUI"
@@ -208,16 +208,16 @@ export default function Footer() {
             sx={{ alignSelf: 'center' }}
           >
             <TwitterIcon />
-          </IconButton> */}
-          {/* <IconButton
+          </IconButton>
+          <IconButton
             color="inherit"
             size="small"
             href="https://www.linkedin.com/company/mui/"
             aria-label="LinkedIn"
             sx={{ alignSelf: 'center' }}
           >
-            <LinkedInIcon /> */}
-          {/* </IconButton> */}
+            <LinkedInIcon />
+          </IconButton>
         </Stack>
       </Box>
     </Container>

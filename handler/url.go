@@ -92,5 +92,5 @@ func NewHandler(route *mux.Router) http.HandlerFunc {
 		r.URL, _ = url.Parse("/" + strings.Join(sub[2:], "/"))
 		r.RequestURI = r.URL.String()
 		router.ServeHTTP(w, r, route)
-	})
+	}
 }
