@@ -128,8 +128,8 @@ func DefaultLogFormatter(param LogFormatterParams) {
 		resetColor = param.ResetColor()
 	}
 
-	fmt.Printf("[Proxy] %s |%s %d %s| %13v | %15s |%s %-7s %s %#v %s\n",
-		statusColor, time.Now().Format("01-02 15:04:05"), param.StatusCode, resetColor,
+	fmt.Printf("[Proxy] %s | %d  %s  %s| %13v | %15s |%s %-7s %s %#v %s\n",
+		statusColor, param.StatusCode, resetColor, time.Now().Format("01-02 15:04:05"),
 		param.ContentLength,
 		param.ClientIP,
 		methodColor, param.Method, resetColor,
