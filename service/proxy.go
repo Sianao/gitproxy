@@ -2,10 +2,11 @@ package service
 
 import (
 	"fmt"
-	"github.com/dustin/go-humanize"
 	"io"
 	"net/http"
 	"strconv"
+
+	"github.com/dustin/go-humanize"
 )
 
 func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
@@ -35,16 +36,3 @@ func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
 	w.WriteHeader(resp.StatusCode)
 	io.Copy(w, resp.Body)
 }
-
-// // StatusCode is HTTP response code.
-// StatusCode int
-// // Latency is how much time the server cost to process a certain request.
-// Latency time.Duration
-// // ClientIP equals Context's ClientIP method.
-// ClientIP string
-// // Method is the HTTP method given to the request.
-// Method string
-// // Path is a path the client requests.
-// Path string
-// // ErrorMessage is set if error has occurred in processing the request.
-// ErrorMessage string

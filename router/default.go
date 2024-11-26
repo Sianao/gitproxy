@@ -2,11 +2,12 @@ package router
 
 import (
 	"fmt"
-	"github.com/dustin/go-humanize"
-	"github.com/sianao/gitproxy/cache"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/dustin/go-humanize"
+	"github.com/sianao/gitproxy/cache"
 
 	"github.com/gorilla/mux"
 	"github.com/sianao/gitproxy/moudule"
@@ -86,7 +87,7 @@ func NewRouter(c *cache.Redis) *mux.Router {
 			userBaisc[0], userBaisc[1], r.URL.Path)
 		path := fmt.Sprintf("raw.githubusercontent.com/%s/%s%s",
 			userBaisc[0], userBaisc[1], r.URL.Path)
-		c.Incr(path)
+
 		if c.Exists(path) {
 			r.URL.Path = path
 			http.FileServer(http.Dir("./cache/")).ServeHTTP(w, r)
@@ -102,6 +103,7 @@ func NewRouter(c *cache.Redis) *mux.Router {
 
 			return
 		}
+		c.Incr(path)
 		service.PacketProxy(w, r, address)
 
 	})
