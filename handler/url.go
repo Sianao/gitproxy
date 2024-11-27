@@ -2,11 +2,12 @@ package handler
 
 import (
 	"context"
-	"github.com/dustin/go-humanize"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
+
+	"github.com/dustin/go-humanize"
 
 	"github.com/gorilla/mux"
 	"github.com/sianao/gitproxy/moudule"

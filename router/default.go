@@ -76,7 +76,7 @@ func NewRouter(c *cache.Redis) *mux.Router {
 		vars := mux.Vars(r)
 		userBaisc := r.Context().Value(&moudule.B).([]string)
 		var address = fmt.Sprintf("https://github.com/%s/%s/archive/refs/tags/%s", userBaisc[0], userBaisc[1], vars["tags"])
-		path := fmt.Sprintf("github.com/%s/%s/archive/refs/tags/%s",
+		path := fmt.Sprintf("github.com/%s/%s/archive/refs/tags%s",
 			userBaisc[0], userBaisc[1], r.URL.Path)
 		c.Incr(path)
 		if c.Exists(path) {
@@ -127,8 +127,8 @@ func NewRouter(c *cache.Redis) *mux.Router {
 
 			return
 		}
-		c.Incr(path)
 		service.PacketProxy(w, r, address)
+		c.Incr(path)
 
 	})
 	return route
