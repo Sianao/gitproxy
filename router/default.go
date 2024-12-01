@@ -55,7 +55,6 @@ func NewRouter(c *cache.Redis) *mux.Router {
 		path := fmt.Sprintf("github.com/%s/%s/releases/download/%s/%s", userBaisc[0], userBaisc[1], vars["version"], vars["file"])
 		c.Incr(path)
 		if c.Exists(path) {
-			fmt.Println("this way ")
 			r.URL.Path = path
 			http.FileServer(http.Dir("./cache")).ServeHTTP(w, r)
 			v, ok := r.Header[http.CanonicalHeaderKey("X-Real-IP")]

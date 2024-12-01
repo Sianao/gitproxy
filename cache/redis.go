@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -72,6 +73,10 @@ func (c *Redis) Upgrade(key string) {
 			}
 		}()
 		if c.Nil() {
+			return
+		}
+		res, _ := c.db.SetNX(context.Background(), key, "set", time.Minute).Result()
+		if !res {
 			return
 		}
 		resp, err := http.Get("https://" + key)
