@@ -17,6 +17,7 @@ export default function Home() {
         <link rel="icon" href="favicon.ico" type="image/x-icon"/>
         <meta name='description' content='Github Proxy Github 国内代理 GitHub 文件 , Releases , archive , gist , raw.githubusercontent.com 文件代理加速下载服务.' />
         <meta property="og:url" content="https://gitproxy.click"></meta>
+        <meta http-equiv='content-language' content='zh-CN'> </meta>
         <meta property="og:title" content="GitHub Proxy 代理加速"></meta>
         <meta property="og:description" content="GitHub 文件 , Releases , archive , gist , raw.githubusercontent.com 文件代理加速下载服务."></meta>
         <meta name='keywords' content={`Github Proxy Github 国内代理 GitHub 文件 , Releases `} />
