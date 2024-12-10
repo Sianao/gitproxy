@@ -104,7 +104,7 @@ export default function Hero() {
                     size="small"
                     variant="outlined"
                     aria-label="Enter your GitHub address"
-                    placeholder="Your GitHub Download Address"
+                    placeholder="输入您的 Github 链接 自动生成下载地址"
                     fullWidth
                    
                 />

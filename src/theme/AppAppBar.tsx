@@ -55,20 +55,7 @@ export default function AppAppBar() {
         <StyledToolbar variant="dense" disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             {<GitHubIcon sx={{ color: textColor}}></GitHubIcon>}
-            {/*<Box sx={{ display: { xs: 'none', md: 'flex' } }}>*/}
-            {/*  <Button variant="text" color="info" size="small">*/}
-            {/*    Features*/}
-            {/*  </Button>*/}
-            {/*  <Button variant="text" color="info" size="small">*/}
-            {/*    Private*/}
-            {/*  </Button>*/}
-            {/*  <Button variant="text" color="info" size="small">*/}
-            {/*    FAQ*/}
-            {/*  </Button>*/}
-            {/*  <Button variant="text" color="info" size="small">*/}
-            {/*    About*/}
-            {/*  </Button>*/}
-            {/*</Box>*/}
+ 
           </Box>
           <Box
             sx={{
@@ -77,12 +64,7 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            {/*<Button color="primary" variant="text" size="small">*/}
-            {/*  Sign in*/}
-            {/*</Button>*/}
-            {/*<Button color="primary" variant="contained" size="small">*/}
-            {/*  Sign up*/}
-            {/*</Button>*/}
+ 
             <ColorModeIconDropdown />
           </Box>
           {/* <StyledSimpleCodeEditor></StyledSimpleCodeEditor> */}
@@ -112,23 +94,7 @@ export default function AppAppBar() {
                     <CloseRoundedIcon />
                   </IconButton>
                 </Box>
-                {/*<MenuItem>Features</MenuItem>*/}
-                {/*<MenuItem>Testimonials</MenuItem>*/}
-                {/*<MenuItem>Highlights</MenuItem>*/}
-                {/*<MenuItem>Pricing</MenuItem>*/}
-                {/*<MenuItem>FAQ</MenuItem>*/}
-                {/*<MenuItem>Blog</MenuItem>*/}
-                {/*<Divider sx={{ my: 3 }} />*/}
-                {/*<MenuItem>*/}
-                {/*  <Button color="primary" variant="contained" fullWidth>*/}
-                {/*    Sign up*/}
-                {/*  </Button>*/}
-                {/*</MenuItem>*/}
-                {/*<MenuItem>*/}
-                {/*  <Button color="primary" variant="outlined" fullWidth>*/}
-                {/*    Sign in*/}
-                {/*  </Button>*/}
-                {/*</MenuItem>*/}
+              
               </Box>
             </Drawer>
           </Box>
