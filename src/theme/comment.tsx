@@ -17,6 +17,7 @@ const WalineComment = () => {
         // 初始化 Waline
         walineInstanceRef.current = init({
             el: '#waline',
+            pageview: true, 
             serverURL: 'https://comment.gitproxy.click',
         });
 
@@ -36,17 +37,19 @@ const WalineComment = () => {
 
     return (
         <Container>
+            
             <Box
                 id="waline"
                 sx={{
                     width: '100%',
                     flexDirection: { xs: 'column', sm: 'row' },
                     justifyContent: 'space-between',
-                    bgcolor: 'transparent', // 可以设置为透明，以使用 CSS 变量
-                    p: 2,  // 内边距
-                    borderRadius: 2,  // 边角圆润
-                    boxShadow: theme.shadows[2],  // 轻微阴影
+                    bgcolor: 'transparent', 
+                    p: 2,  
+                    borderRadius: 2,  
+                    boxShadow: theme.shadows[2],  
                 }}
+                
             />
             
         </Container>
