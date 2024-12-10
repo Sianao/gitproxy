@@ -8,6 +8,8 @@ import Features from "../theme/Features";
 import Hero from '../theme/Hero';
 import Footer from "../theme/Footer";
 import Head from "next/head";
+import WalineComment from "../theme/comment"
+import SimpleDialogDemo from "../theme/Bar"
 export default function Home() {
   return (
     <>
@@ -24,11 +26,13 @@ export default function Home() {
       
       </Head>
       <AppTheme >
+        {/* <SimpleDialogDemo></SimpleDialogDemo> */}
         <CssBaseline enableColorScheme />
         <Hero />
         <Features></Features>
         <AppAppBar></AppAppBar>
         <Footer></Footer>
+        <WalineComment></WalineComment>
       </AppTheme>
     </>
 

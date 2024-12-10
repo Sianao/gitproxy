@@ -14,6 +14,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ColorModeIconDropdown from './ColorModeIconDropdown';
 import highlight from '@mui/internal-markdown/prism';
+import CommentIcon from '@mui/icons-material/Comment';
 const StyledToolbar = styled(Toolbar)(({ theme  }:{theme: any}) => ({
   display: 'flex',
   alignItems: 'center',
@@ -39,7 +40,12 @@ export default function AppAppBar() {
   };
   const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
 
-
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
   return (
     <AppBar
       position="fixed"
@@ -55,7 +61,9 @@ export default function AppAppBar() {
         <StyledToolbar variant="dense" disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             {<GitHubIcon sx={{ color: textColor}}></GitHubIcon>}
- 
+            <Button aria-label="Menu button" onClick={() => scrollToSection('waline')}>
+           <CommentIcon></CommentIcon>
+            </Button>
           </Box>
           <Box
             sx={{
