@@ -27,8 +27,7 @@ func PacketProxy(w http.ResponseWriter, r *http.Request, address string) {
 	if !ok {
 		v = []string{r.RemoteAddr}
 	}
-	length, _ := strconv.Atoi(w.Header().Get("Content-Length"))
-
+	length, _ := strconv.Atoi(r.Header.Get("Content-Length"))
 	DefaultLogFormatter(
 		LogFormatterParams{StatusCode: resp.StatusCode,
 			ContentLength: humanize.Bytes(uint64(length)), ClientIP: v[0], Method: r.Method, Path: r.URL.Path})

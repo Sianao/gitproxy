@@ -105,12 +105,13 @@ func NewRouter(c *cache.Redis) *mux.Router {
 			http.Error(w, "bad address", 512)
 			return
 		}
+		fmt.Println(r.RequestURI)
 		r.RequestURI = strings.TrimPrefix(r.RequestURI, "/blob")
 		var address = fmt.Sprintf("https://raw.githubusercontent.com/%s/%s%s",
-			userBaisc[0], userBaisc[1], r.URL.Path)
+			userBaisc[0], userBaisc[1], r.RequestURI)
 		path := fmt.Sprintf("raw.githubusercontent.com/%s/%s%s",
 			userBaisc[0], userBaisc[1], r.URL.Path)
-
+		fmt.Println(address)
 		if c.Exists(path) {
 			r.URL.Path = path
 			http.FileServer(http.Dir("./cache/")).ServeHTTP(w, r)

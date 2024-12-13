@@ -26,14 +26,10 @@ export default function Home() {
       
       </Head>
       <AppTheme >
-        {/* <SimpleDialogDemo></SimpleDialogDemo> */}
         <CssBaseline enableColorScheme />
         <Hero />
-        <Features></Features>
         <AppAppBar></AppAppBar>
         <WalineComment></WalineComment>
-        <Footer></Footer>
-
       </AppTheme>
     </>
 
