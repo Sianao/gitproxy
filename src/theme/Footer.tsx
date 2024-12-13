@@ -43,6 +43,7 @@ export default function Footer() {
                 textAlign: { sm: 'center', md: 'left' },
             }}
         >
+
             <Box
                 sx={{
                     display: 'flex',
@@ -60,13 +61,6 @@ export default function Footer() {
                     }}
                 >
                     <Box sx={{ width: { xs: '100%', sm: '60%' } }}>
-                        {/*<SitemarkIcon />*/}
-                        {/* <Typography variant="body2" gutterBottom sx={{ fontWeight: 600, mt: 2 }}>
-              Join the newsletter
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
-              Subscribe for weekly updates. No spams ever!
-            </Typography> */}
                         <InputLabel htmlFor="email-newsletter">Email</InputLabel>
                         <Stack direction="row" spacing={1} useFlexGap>
                             <TextField
@@ -95,6 +89,16 @@ export default function Footer() {
                             </Button>
                         </Stack>
                     </Box>
+                    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+                    <Box color="text.secondary" sx={{
+                        gap: 2,
+                        display: 'flex',
+                        borderColor: 'divider',
+                    }}>
+                        <div>本站总访问量: <a id="busuanzi_value_site_pv"></a> </div>
+                        <div>本站总访客数: <a id="busuanzi_value_site_uv"></a></div>
+
+                    </Box>
                 </Box>
                 <Box
                     sx={{
@@ -103,24 +107,6 @@ export default function Footer() {
                         gap: 1,
                     }}
                 >
-                    {/* <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-            Product
-          </Typography>
-          <Link color="text.secondary" variant="body2" href="#">
-            Features
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Testimonials
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Highlights
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Pricing
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            FAQs
-          </Link> */}
                 </Box>
                 <Box
                     sx={{
@@ -158,6 +144,7 @@ export default function Footer() {
                     <Link color="text.secondary" variant="body2" href="#">
                         Privacy
                     </Link>
+
                     <Link color="text.secondary" variant="body2" href="#">
                         Contact
                     </Link>
@@ -184,6 +171,9 @@ export default function Footer() {
                         Terms of Service
                     </Link>
                     <Copyright />
+                    <div className="bwaline-pageview-count" color="text.secondary" >
+
+                    </div>
                 </div>
                 <Stack
                     direction="row"
@@ -200,24 +190,7 @@ export default function Footer() {
                     >
                         <FacebookIcon />
                     </IconButton>
-                    {/* <IconButton
-            color="inherit"
-            size="small"
-            href="https://x.com/MaterialUI"
-            aria-label="X"
-            sx={{ alignSelf: 'center' }}
-          >
-            <TwitterIcon />
-          </IconButton> */}
-                    {/* <IconButton
-            color="inherit"
-            size="small"
-            href="https://www.linkedin.com/company/mui/"
-            aria-label="LinkedIn"
-            sx={{ alignSelf: 'center' }}
-          >
-            <LinkedInIcon /> */}
-                    {/* </IconButton> */}
+
                 </Stack>
             </Box>
         </Container>

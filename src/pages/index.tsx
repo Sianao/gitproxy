@@ -31,8 +31,9 @@ export default function Home() {
         <Hero />
         <Features></Features>
         <AppAppBar></AppAppBar>
-        <Footer></Footer>
         <WalineComment></WalineComment>
+        <Footer></Footer>
+
       </AppTheme>
     </>
 

@@ -37,7 +37,7 @@ const WalineComment = () => {
 
     return (
         <Container>
-            
+ 
             <Box
                 id="waline"
                 sx={{
@@ -49,9 +49,7 @@ const WalineComment = () => {
                     borderRadius: 2,  
                     boxShadow: theme.shadows[2],  
                 }}
-                
-            />
-            
+            />  
         </Container>
     );
 };
