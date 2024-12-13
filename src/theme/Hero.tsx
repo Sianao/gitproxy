@@ -80,7 +80,7 @@ export default function Hero() {
             }}
           >
 
-            致力于为国内用户提供优质的 Github 代理服务
+            使用G口带宽 致力于为国内用户提供优质的 Github 代理服务
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}

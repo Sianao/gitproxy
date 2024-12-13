@@ -30,6 +30,9 @@ export default function Home() {
         <Hero />
         <AppAppBar></AppAppBar>
         <WalineComment></WalineComment>
+        <Footer></Footer>
+
+
       </AppTheme>
     </>
 
